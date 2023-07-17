@@ -18,7 +18,7 @@ export default function Topics(){
         })
     })
     return (
-        <List>
+        <List animated selection>
             {topics.map(topic=>{
                 return(
                     <List.Item>{topic.name}</List.Item>
