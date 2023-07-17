@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Form, Container } from 'semantic-ui-react';
+import { Menu, Form, Container, Message } from 'semantic-ui-react';
 import firebase from '../utils/firebase';
 import 'firebase/compat/auth';
 import {useNavigate} from 'react-router-dom';
@@ -11,6 +11,7 @@ export default function Signin(){
     const [activeItem, setActiveItem] = React.useState("register");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [errorMessage, setErrorMessage] = React.useState("");
     
     function onSubmit(){
         if (activeItem === 'register'){
@@ -21,7 +22,18 @@ export default function Signin(){
                 navigate('/');
             })
             .catch((error)=>{
-                error.code
+                switch(error.code){
+                    case "auth/email-already-in-use":
+                        setErrorMessage("信箱已註冊");
+                        break;
+                    case "auth/invalid-email":
+                        setErrorMessage("信箱格式不正確");
+                        break;
+                    case "auth/weak-password":
+                        setErrorMessage("密碼強度不足（最少6字）");
+                        break;
+                    default:
+                }
             });
         } else if (activeItem === 'signin'){
             firebase
@@ -29,6 +41,20 @@ export default function Signin(){
             .signInWithEmailAndPassword(email, password)
             .then(()=>{
                 navigate('/');
+            })
+            .catch((error)=>{
+                switch(error.code){
+                    case "auth/user-not-found":
+                        setErrorMessage("信箱不存在");
+                        break;
+                    case "auth/invalid-email":
+                        setErrorMessage("信箱格式不正確");
+                        break;
+                    case "auth/wrong-password":
+                        setErrorMessage("密碼錯誤");
+                        break;
+                    default:
+                }
             });
         }
     }
@@ -42,6 +68,7 @@ export default function Signin(){
             <Form onSubmit={onSubmit}>
                 <Form.Input label="信箱" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="請輸入信箱"></Form.Input>
                 <Form.Input label="密碼" value={password} onChange={(p) => setPassword(p.target.value)} placeholder="請輸入密碼" type="password"></Form.Input>
+                {errorMessage && <Message negative>{errorMessage}</Message>}
                 <Form.Button>
                     {activeItem==="register" && "註冊"}
                     {activeItem==="signin" && "登入"}
