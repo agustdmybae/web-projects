@@ -21,7 +21,7 @@ export default function Topics(){
         <List animated selection>
             {topics.map(topic=>{
                 return(
-                    <List.Item>{topic.name}</List.Item>
+                    <List.Item key={topic.name}>{topic.name}</List.Item>
                 )
             })}
         </List>
