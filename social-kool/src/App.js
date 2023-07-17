@@ -1,6 +1,7 @@
 import Header from './Header';
 import React from 'react';
 import Signin from './pages/Signin'
+import Home from './pages/Home'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 export default function App() {
@@ -8,7 +9,7 @@ export default function App() {
         <BrowserRouter>
             <Header />
             <Routes>
-                <Route path="/" element="首頁">首頁</Route>
+                <Route path="/" element={<Home />}></Route>
                 <Route path="/signin" element={<Signin />}>註冊登入</Route>
             </Routes>
         </BrowserRouter>  
