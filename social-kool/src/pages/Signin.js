@@ -19,6 +19,9 @@ export default function Signin(){
             .createUserWithEmailAndPassword(email, password)
             .then(()=>{
                 navigate('/');
+            })
+            .catch((error)=>{
+                error.code
             });
         } else if (activeItem === 'signin'){
             firebase
