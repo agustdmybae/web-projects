@@ -12,7 +12,8 @@ export default function Signin(){
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [errorMessage, setErrorMessage] = React.useState("");
-    
+    const [isLoading, setIsLoading] = React.useState(false);
+
     function onSubmit(){
         if (activeItem === 'register'){
             firebase
@@ -20,6 +21,7 @@ export default function Signin(){
             .createUserWithEmailAndPassword(email, password)
             .then(()=>{
                 navigate('/');
+                setIsLoading(false);
             })
             .catch((error)=>{
                 switch(error.code){
@@ -41,6 +43,7 @@ export default function Signin(){
             .signInWithEmailAndPassword(email, password)
             .then(()=>{
                 navigate('/');
+                setIsLoading(false);
             })
             .catch((error)=>{
                 switch(error.code){
@@ -69,7 +72,7 @@ export default function Signin(){
                 <Form.Input label="信箱" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="請輸入信箱"></Form.Input>
                 <Form.Input label="密碼" value={password} onChange={(p) => setPassword(p.target.value)} placeholder="請輸入密碼" type="password"></Form.Input>
                 {errorMessage && <Message negative>{errorMessage}</Message>}
-                <Form.Button>
+                <Form.Button loading={isLoading}>
                     {activeItem==="register" && "註冊"}
                     {activeItem==="signin" && "登入"}
                 </Form.Button>
