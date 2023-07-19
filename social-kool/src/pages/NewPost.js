@@ -8,6 +8,7 @@ export default function NewPost(){
     const [content, setContent] = React.useState("");
     const [topics, setTopics] = React.useState([]);
     const [topicName, setTopicName] = React.useState("");
+    const [image, setImage] = React.useState(null);
 
     React.useEffect(()=>{
         firebase
@@ -29,13 +30,20 @@ export default function NewPost(){
         }) 
     })
 
+    const previewURL = image ? URL.createObjectURL(image) : "https://react.semantic-ui.com/images/wireframe/image.png"
+
     return (
         <Container>
             <Header>發表文章</Header>
             <Form>
-                <Image src="https://react.semantic-ui.com/images/wireframe/image.png" size="small" floated="left"/>
+                <Image src={previewURL} size="small" floated="left"/>
                 <Button basic as="label" htmlFor="post-image">上傳文章圖片</Button>
-                <Form.Input type="file" id="post-image" style={{display: 'none'}}/>
+                <Form.Input 
+                    type="file" 
+                    id="post-image" 
+                    style={{display: 'none'}}
+                    onChange={(e)=>setImage(e.target.files[0])}
+                />
                 <Form.Input 
                     placeholder='輸入文章標題' 
                     value={title} 
