@@ -11,6 +11,7 @@ export default function NewPost(){
     const [topics, setTopics] = React.useState([]);
     const [topicName, setTopicName] = React.useState("");
     const [image, setImage] = React.useState(null);
+    const [isLoading, setIsLoading] = React.useState(false);
 
     React.useEffect(()=>{
         firebase
@@ -35,6 +36,7 @@ export default function NewPost(){
     const previewURL = image ? URL.createObjectURL(image) : "https://react.semantic-ui.com/images/wireframe/image.png"
     //送出文章function
     function onSubmit(){
+        setIsLoading(true);
         const documentRef = firebase.firestore().collection("posts").doc();
         documentRef.set({
             title,
@@ -48,6 +50,7 @@ export default function NewPost(){
                 email: firebase.auth().currentUser.email
             },
         }).then(()=>{
+            setIsLoading(false);
             navigate('/');
         })
 
@@ -82,7 +85,7 @@ export default function NewPost(){
                     value={topicName}
                     onChange={(e, {value})=>setTopicName(value)}
                 />
-                <Button>送出</Button>
+                <Form.Button loading={isLoading}>送出</Form.Button>
             </Form>
         </Container>
     )
