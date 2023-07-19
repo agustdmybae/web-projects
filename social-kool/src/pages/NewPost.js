@@ -7,6 +7,7 @@ export default function NewPost(){
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
     const [topics, setTopics] = React.useState([]);
+    const [topicName, setTopicName] = React.useState("");
 
     React.useEffect(()=>{
         firebase
@@ -46,6 +47,8 @@ export default function NewPost(){
                     placeholder='選擇文章主題'
                     options={options}
                     selection
+                    value={topicName}
+                    onChange={(e, {value})=>setTopicName(value)}
                 />
             </Form>
         </Container>
