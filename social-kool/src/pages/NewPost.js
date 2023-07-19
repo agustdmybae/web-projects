@@ -61,6 +61,7 @@ export default function NewPost(){
                     value={topicName}
                     onChange={(e, {value})=>setTopicName(value)}
                 />
+                <Button>送出</Button>
             </Form>
         </Container>
     )
