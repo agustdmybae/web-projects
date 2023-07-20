@@ -1,6 +1,7 @@
 import React from "react";
 import firebase from "../utils/firebase";
 import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
 import { Container, Header, Form, Image, Button } from "semantic-ui-react";
 import {useNavigate} from 'react-router-dom';
 
@@ -38,22 +39,33 @@ export default function NewPost(){
     function onSubmit(){
         setIsLoading(true);
         const documentRef = firebase.firestore().collection("posts").doc();
-        documentRef.set({
-            title,
-            content,
-            topic: topicName,
-            createdAt: firebase.firestore.Timestamp.now(),
-            author:{
-                displayName: firebase.auth().currentUser.displayName || "",
-                photoURL: firebase.auth().currentUser.photoURL || "",
-                uid: firebase.auth().currentUser.uid,
-                email: firebase.auth().currentUser.email
-            },
-        }).then(()=>{
-            setIsLoading(false);
-            navigate('/');
-        })
-
+        //取得圖片存放位置
+        const fileRef = firebase.storage().ref('post-images/'+documentRef.id)
+        //檔案的額外資訊
+        const metadata = {
+            contentType: image.type,
+        }
+        //儲存圖片檔案
+        fileRef.put(image, metadata).then(()=>{
+            fileRef.getDownloadURL().then((imageURL)=>{
+                documentRef.set({
+                    title,
+                    content,
+                    topic: topicName,
+                    createdAt: firebase.firestore.Timestamp.now(),
+                    author:{
+                        displayName: firebase.auth().currentUser.displayName || "",
+                        photoURL: firebase.auth().currentUser.photoURL || "",
+                        uid: firebase.auth().currentUser.uid,
+                        email: firebase.auth().currentUser.email
+                    },
+                    imageURL,
+                }).then(()=>{
+                    setIsLoading(false);
+                    navigate('/');
+                })
+            })
+        });
     }
 
     return (
