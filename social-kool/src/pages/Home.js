@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from '../utils/firebase';
 import 'firebase/compat/firestore';
 import Topics from '../components/Topics'
-import { Grid } from 'semantic-ui-react';
+import { Grid, Item, Image, Icon } from 'semantic-ui-react';
 
 export default function Posts(){
     const [posts, setPosts] = React.useState([]);
@@ -21,9 +21,23 @@ export default function Posts(){
                     <Topics/>
                 </Grid.Column>
                 <Grid.Column width={10}>{
-                    posts.map(post=>{
-                        return <p>{post.title}</p>
-                    })
+                    <Item.Group>
+                        {posts.map(post=>{
+                            return (
+                                <Item>
+                                    <Item.Image src={post.imageURL} />
+                                    <Item.Content>
+                                        <Item.Meta>
+                                            {post.author.photoURL ? <Image src={post.author.photoURL}/> : <Icon name="user circle"/>}
+                                            {post.topic}。{post.author.displayName || "user"}
+                                        </Item.Meta>
+                                        <Item.Header>{post.title}</Item.Header>
+                                        <Item.Description>{post.content}</Item.Description>
+                                    </Item.Content>
+                                </Item>
+                            )
+                        })}
+                    </Item.Group>
                 }</Grid.Column>
                 <Grid.Column width={3}>
                     留白
