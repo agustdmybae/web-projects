@@ -9,7 +9,8 @@ export default function Posts(){
     React.useEffect(()=>{
         firebase.firestore().collection("posts").get().then((collectionSnapshot)=>{
             const data = collectionSnapshot.docs.map(docSnapShot => {
-                return docSnapShot.data();
+                const id = docSnapShot.id;
+                return {...docSnapShot.data(), id};
             })
             setPosts(data);
         })
@@ -24,7 +25,7 @@ export default function Posts(){
                     <Item.Group>
                         {posts.map(post=>{
                             return (
-                                <Item>
+                                <Item key={post.id}>
                                     <Item.Image src={post.imageURL} size="small"/>
                                     <Item.Content>
                                         <Item.Meta>
