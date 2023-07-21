@@ -33,6 +33,9 @@ export default function Posts(){
                                         </Item.Meta>
                                         <Item.Header>{post.title}</Item.Header>
                                         <Item.Description>{post.content}</Item.Description>
+                                        <Item.Extra>
+                                            留言 0。讚 0
+                                        </Item.Extra>
                                     </Item.Content>
                                 </Item>
                             )
