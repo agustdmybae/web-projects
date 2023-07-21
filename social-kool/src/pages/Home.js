@@ -25,7 +25,7 @@ export default function Posts(){
                         {posts.map(post=>{
                             return (
                                 <Item>
-                                    <Item.Image src={post.imageURL} />
+                                    <Item.Image src={post.imageURL} size="small"/>
                                     <Item.Content>
                                         <Item.Meta>
                                             {post.author.photoURL ? <Image src={post.author.photoURL}/> : <Icon name="user circle"/>}
