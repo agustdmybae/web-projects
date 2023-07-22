@@ -1,10 +1,9 @@
 import React from 'react';
-import { Grid, Container } from 'semantic-ui-react';
+import { Grid, Container, Image } from 'semantic-ui-react';
 import Topics from '../components/Topics';
 import { useParams } from 'react-router-dom';
 
 import firebase from '../utils/firebase';
-import firestore, { DocumentSnapshot } from 'firebase/firestore'
 
 export default function Post(){
     const{ postId }=useParams();
@@ -23,7 +22,7 @@ export default function Post(){
                         <Topics/>
                     </Grid.Column>
                     <Grid.Column width={10}>
-
+                        <Image src={post.author.photoURL}/>
                     </Grid.Column>
                     <Grid.Column width={3}>
                         留白
