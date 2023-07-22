@@ -27,7 +27,7 @@ export default function Posts(){
                             {posts.map(post=>{
                                 return (
                                     <Item key={post.id}>
-                                        <Item.Image src={post.imageURL} size="small"/>
+                                        <Item.Image src={post.imageURL||"https://react.semantic-ui.com/images/wireframe/image.png"} size="small"/>
                                         <Item.Content>
                                             <Item.Meta>
                                                 {post.author.photoURL ? <Image src={post.author.photoURL}/> : <Icon name="user circle"/>}
