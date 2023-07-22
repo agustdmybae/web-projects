@@ -3,6 +3,7 @@ import firebase from '../utils/firebase';
 import 'firebase/compat/firestore';
 import Topics from '../components/Topics'
 import { Grid, Item, Image, Icon, Container } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 export default function Posts(){
     const [posts, setPosts] = React.useState([]);
@@ -26,7 +27,7 @@ export default function Posts(){
                         <Item.Group>
                             {posts.map(post=>{
                                 return (
-                                    <Item key={post.id}>
+                                    <Item key={post.id} as={Link} to={`/posts/${post.id}`}>
                                         <Item.Image src={post.imageURL||"https://react.semantic-ui.com/images/wireframe/image.png"} size="small"/>
                                         <Item.Content>
                                             <Item.Meta>

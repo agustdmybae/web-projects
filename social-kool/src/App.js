@@ -13,6 +13,7 @@ export default function App() {
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/signin" element={<Signin />}>註冊登入</Route>
                 <Route path="/new-post" element={<NewPost />}>註冊登入</Route>
+                <Route path="/posts/:postId">Hello</Route>
             </Routes>
         </BrowserRouter>  
     )
