@@ -25,24 +25,22 @@ export default function Post(){
                         <Topics/>
                     </Grid.Column>
                     <Grid.Column width={10}>
-                        <Image src={post.author.photoURL}/> {post.author.displayName}
+                        <Image src={post.author.photoURL ? post.author.photoURL : <Icon name="user circle"/>}/> {post.author.displayName || "user"}
                         <Header>
                             {post.title}
                             <Header.Subheader>
-                                {post.topic}/{post.createdAt?.toDate().toLocaleDateString()}
+                                {post.topic}/{post.createdAt ? post.createdAt.toDate().toLocaleDateString() : "time"}
                             </Header.Subheader>
                         </Header>
                         <Image src={post.imageURL}/>
                         <Segment basic vertical>{post.content}</Segment>
                         <Segment basic vertical>
-                            留言0 * 讚 0 * 
+                            留言0 * 讚 0
                             <Icon name="thumbs up outline" color="grey"></Icon>
                             <Icon name="bookmark outline" color="grey"></Icon>
                         </Segment>
                     </Grid.Column>
-                    <Grid.Column width={3}>
-                        留白
-                    </Grid.Column>
+                    <Grid.Column width={3}></Grid.Column>
 
                 </Grid.Row>
             </Grid>
