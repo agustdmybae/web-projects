@@ -12,7 +12,8 @@ export default function Post(){
         author: {},
     });
     React.useEffect(()=>{
-        firebase.firestore().collection("posts").doc(postId).get().then((docSnapshot)=>{
+        //用 onSnaptshot 即時監聽、取代原本的 get+then
+        firebase.firestore().collection("posts").doc(postId).onSnapshot((docSnapshot)=>{
             const data = docSnapshot.data();
             setPost(data);
         })
