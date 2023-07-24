@@ -17,6 +17,14 @@ export default function Post(){
             setPost(data);
         })
     })
+    //function for collecting posts 收藏文章
+    function toggleCollected(){
+        const uid = firebase.auth().currentUser.uid;
+        firebase.firestore().collection("posts").doc(postId).update({
+            collectedBy: firebase.firestore.FieldValue.arrayUnion(uid),
+        })
+    }
+
     return(
         <Container>
             <Grid>
@@ -37,11 +45,10 @@ export default function Post(){
                         <Segment basic vertical>
                             留言0 * 讚 0
                             <Icon name="thumbs up outline" color="grey"></Icon>
-                            <Icon name="bookmark outline" color="grey"></Icon>
+                            <Icon name="bookmark outline" color="grey" link onClick={toggleCollected}/>
                         </Segment>
                     </Grid.Column>
                     <Grid.Column width={3}></Grid.Column>
-
                 </Grid.Row>
             </Grid>
         </Container>
