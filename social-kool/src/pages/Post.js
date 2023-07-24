@@ -19,7 +19,7 @@ export default function Post(){
         })
     })
     //判斷文章是否有被收藏過
-    const isCollected = post.collectedBy?.includes(firebase.auth().currentUser.uid);
+    const isCollected = post.collectedBy ? post.collectedBy.includes(firebase.auth().currentUser.uid) : false;
     //function for collecting posts 收藏文章
     function toggleCollected(){
         const uid = firebase.auth().currentUser.uid;
@@ -43,11 +43,12 @@ export default function Post(){
                         <Topics/>
                     </Grid.Column>
                     <Grid.Column width={10}>
-                        <Image src={post.author.photoURL ? post.author.photoURL : <Icon name="user circle"/>}/> {post.author.displayName || "user"}
+                        {post.author.photoURL ? <Image src={post.author.photoURL}/> : <Icon name="user circle"/>}
+                        {post.author.displayName || "user"}
                         <Header>
                             {post.title}
                             <Header.Subheader>
-                                {post.topic}/{post.createdAt ? post.createdAt.toDate().toLocaleDateString() : "time"}
+                                {post.topic}*{post.createdAt ? post.createdAt.toDate().toLocaleDateString() : "time"}
                             </Header.Subheader>
                         </Header>
                         <Image src={post.imageURL}/>
