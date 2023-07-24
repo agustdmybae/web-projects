@@ -17,12 +17,21 @@ export default function Post(){
             setPost(data);
         })
     })
+    //判斷文章是否有被收藏過
+    const isCollected = post.collectedBy?.includes(firebase.auth().currentUser.uid);
     //function for collecting posts 收藏文章
     function toggleCollected(){
         const uid = firebase.auth().currentUser.uid;
-        firebase.firestore().collection("posts").doc(postId).update({
-            collectedBy: firebase.firestore.FieldValue.arrayUnion(uid),
-        })
+        if (isCollected){
+            firebase.firestore().collection("posts").doc(postId).update({
+                collectedBy: firebase.firestore.FieldValue.arrayRemove(uid),
+            })
+        } else {
+            firebase.firestore().collection("posts").doc(postId).update({
+                collectedBy: firebase.firestore.FieldValue.arrayUnion(uid),
+            })
+        }
+        
     }
 
     return(
@@ -43,9 +52,14 @@ export default function Post(){
                         <Image src={post.imageURL}/>
                         <Segment basic vertical>{post.content}</Segment>
                         <Segment basic vertical>
-                            留言0 * 讚 0
-                            <Icon name="thumbs up outline" color="grey"></Icon>
-                            <Icon name="bookmark outline" color="grey" link onClick={toggleCollected}/>
+                            留言0 * 讚 0 * 
+                            <Icon name="thumbs up outline" color="grey"></Icon> * 
+                            <Icon 
+                                name={`bookmark ${isCollected ? "" : "outline"}`} 
+                                color= {isCollected ? "blue" : "grey" }
+                                link 
+                                onClick={toggleCollected}
+                            />
                         </Segment>
                     </Grid.Column>
                     <Grid.Column width={3}></Grid.Column>
