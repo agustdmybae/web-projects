@@ -22,7 +22,7 @@ export default function Post(){
     const isCollected = post.collectedBy ? post.collectedBy.includes(firebase.auth().currentUser.uid) : false;
     //判斷文章是否有被按讚過
     const isLiked = post.likedBy ? post.likedBy.includes(firebase.auth().currentUser.uid) : false;
-
+    //檢查文章 active 功能 e.g. isLiked, isCollected
     function toggle(isActive, field){
         const uid = firebase.auth().currentUser.uid;
         if (isActive){
