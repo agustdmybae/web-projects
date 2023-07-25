@@ -57,7 +57,7 @@ export default function Post(){
                         <Image src={post.imageURL}/>
                         <Segment basic vertical>{post.content}</Segment>
                         <Segment basic vertical>
-                            留言0 * 讚 0 * 
+                            留言0 * 讚 {post.likedBy ? post.likedBy.length : 0} * 
                             <Icon 
                                 name={`thumbs up ${isLiked ? "" : "outline"}`}
                                 color= {isLiked ? "blue" : "grey" } 
