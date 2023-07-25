@@ -20,34 +20,21 @@ export default function Post(){
     })
     //判斷文章是否有被收藏過
     const isCollected = post.collectedBy ? post.collectedBy.includes(firebase.auth().currentUser.uid) : false;
-    //function for collecting posts 收藏文章
-    function toggleCollected(){
-        const uid = firebase.auth().currentUser.uid;
-        if (isCollected){
-            firebase.firestore().collection("posts").doc(postId).update({
-                collectedBy: firebase.firestore.FieldValue.arrayRemove(uid),
-            })
-        } else {
-            firebase.firestore().collection("posts").doc(postId).update({
-                collectedBy: firebase.firestore.FieldValue.arrayUnion(uid),
-            })
-        }
-    }
-
     //判斷文章是否有被按讚過
     const isLiked = post.likedBy ? post.likedBy.includes(firebase.auth().currentUser.uid) : false;
-    //function for liking posts 按讚文章
-    function toggleLiked(){
+
+    function toggle(isActive, field){
         const uid = firebase.auth().currentUser.uid;
-        if (isLiked){
+        if (isActive){
             firebase.firestore().collection("posts").doc(postId).update({
-                likedBy: firebase.firestore.FieldValue.arrayRemove(uid),
+                [field]: firebase.firestore.FieldValue.arrayRemove(uid),
             })
         } else {
             firebase.firestore().collection("posts").doc(postId).update({
-                likedBy: firebase.firestore.FieldValue.arrayUnion(uid),
+                [field]: firebase.firestore.FieldValue.arrayUnion(uid),
             })
         }
+
     }
 
 
@@ -76,13 +63,13 @@ export default function Post(){
                                 name={`thumbs up ${isLiked ? "" : "outline"}`}
                                 color= {isLiked ? "blue" : "grey" } 
                                 link
-                                onClick={toggleLiked}
+                                onClick={()=>toggle(isLiked, likedBy)}
                             /> * 
                             <Icon 
                                 name={`bookmark ${isCollected ? "" : "outline"}`} 
                                 color= {isCollected ? "blue" : "grey" }
                                 link 
-                                onClick={toggleCollected}
+                                onClick={()=>toggle(isCollected, collectedBy)}
                             />
                         </Segment>
                     </Grid.Column>
