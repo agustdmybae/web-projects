@@ -32,8 +32,25 @@ export default function Post(){
                 collectedBy: firebase.firestore.FieldValue.arrayUnion(uid),
             })
         }
-        
     }
+
+    //判斷文章是否有被按讚過
+    const isLiked = post.likedBy ? post.likedBy.includes(firebase.auth().currentUser.uid) : false;
+    //function for liking posts 按讚文章
+    function toggleLiked(){
+        const uid = firebase.auth().currentUser.uid;
+        if (isLiked){
+            firebase.firestore().collection("posts").doc(postId).update({
+                likedBy: firebase.firestore.FieldValue.arrayRemove(uid),
+            })
+        } else {
+            firebase.firestore().collection("posts").doc(postId).update({
+                likedBy: firebase.firestore.FieldValue.arrayUnion(uid),
+            })
+        }
+    }
+
+
 
     return(
         <Container>
@@ -55,7 +72,12 @@ export default function Post(){
                         <Segment basic vertical>{post.content}</Segment>
                         <Segment basic vertical>
                             留言0 * 讚 0 * 
-                            <Icon name="thumbs up outline" color="grey"></Icon> * 
+                            <Icon 
+                                name={`thumbs up ${isLiked ? "" : "outline"}`}
+                                color= {isLiked ? "blue" : "grey" } 
+                                link
+                                onClick={toggleLiked}
+                            /> * 
                             <Icon 
                                 name={`bookmark ${isCollected ? "" : "outline"}`} 
                                 color= {isCollected ? "blue" : "grey" }
