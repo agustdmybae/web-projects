@@ -25,16 +25,15 @@ export default function Post(){
     //檢查文章 active 功能 e.g. isLiked, isCollected
     function toggle(isActive, field){
         const uid = firebase.auth().currentUser.uid;
-        if (isActive){
-            firebase.firestore().collection("posts").doc(postId).update({
-                [field]: firebase.firestore.FieldValue.arrayRemove(uid),
+        firebase.
+            firestore().
+            collection("posts").
+            doc(postId).
+            update({
+                [field]: isActive
+                    ? firebase.firestore.FieldValue.arrayRemove(uid)
+                    : firebase.firestore.FieldValue.arrayUnion(uid),
             })
-        } else {
-            firebase.firestore().collection("posts").doc(postId).update({
-                [field]: firebase.firestore.FieldValue.arrayUnion(uid),
-            })
-        }
-
     }
 
 
