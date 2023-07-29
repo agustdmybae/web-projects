@@ -62,13 +62,13 @@ export default function Post(){
                                 name={`thumbs up ${isLiked ? "" : "outline"}`}
                                 color= {isLiked ? "blue" : "grey" } 
                                 link
-                                onClick={()=>toggle(isLiked, likedBy)}
+                                onClick={()=>toggle(isLiked, 'likedBy')}
                             /> * 
                             <Icon 
                                 name={`bookmark ${isCollected ? "" : "outline"}`} 
                                 color= {isCollected ? "blue" : "grey" }
                                 link 
-                                onClick={()=>toggle(isCollected, collectedBy)}
+                                onClick={()=>toggle(isCollected, 'collectedBy')}
                             />
                         </Segment>
                     </Grid.Column>
