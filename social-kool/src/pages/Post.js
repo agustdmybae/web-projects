@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Container, Image, Header, Segment,Icon } from 'semantic-ui-react';
+import { Grid, Container, Image, Header, Segment,Icon, Comment, Form } from 'semantic-ui-react';
 import Topics from '../components/Topics';
 import { useParams } from 'react-router-dom';
 
@@ -71,6 +71,22 @@ export default function Post(){
                                 onClick={()=>toggle(isCollected, 'collectedBy')}
                             />
                         </Segment>
+                        <Comment.Group>
+                            <Form reply>
+                                <Form.TextArea/>
+                                <Form.Button>留言</Form.Button>
+                            </Form>
+                            <Header>共1則留言</Header>
+                            <Comment>
+                                <Comment.Avatar src=''/>
+                                <Comment.Content>
+                                    <Comment.Author as="span">留言者名稱</Comment.Author>
+                                    <Comment.Metadata>{new Date().toLocaleString}</Comment.Metadata>
+                                    <Comment.Text>留言內容</Comment.Text>
+                                </Comment.Content>
+                            </Comment>
+                        </Comment.Group>
+                        
                     </Grid.Column>
                     <Grid.Column width={3}></Grid.Column>
                 </Grid.Row>
