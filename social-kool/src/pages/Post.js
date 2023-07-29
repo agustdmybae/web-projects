@@ -11,6 +11,7 @@ export default function Post(){
     const [post, setPost]= React.useState({
         author: {},
     });
+    const [commentContent, setCommentContent] = React.useState("");
     React.useEffect(()=>{
         //用 onSnaptshot 即時監聽、取代原本的 get+then
         firebase.firestore().collection("posts").doc(postId).onSnapshot((docSnapshot)=>{
@@ -36,7 +37,22 @@ export default function Post(){
             })
     }
 
+    function submitComment(){
+        //firestore batch: 對 firestore 一次進行多個操作、並確保同時完成
+        const firestore = firebase.firestore();
+        const batch = firestore.batch();
+        const postRef = firebase.collection("posts").doc(postId);
 
+        batch.update(postRef, {
+            commentsCount: firebase.firestore.FieldValue.increment(1),
+        })
+
+        const commentsRef = postRef.collection('comments').doc();
+        batch.set(commentsRef, {
+            content: commentContent,
+            createdAt: firebase.firestore.Timestamp.now(),
+        })
+    }
 
     return(
         <Container>
@@ -73,8 +89,8 @@ export default function Post(){
                         </Segment>
                         <Comment.Group>
                             <Form reply>
-                                <Form.TextArea/>
-                                <Form.Button>留言</Form.Button>
+                                <Form.TextArea value={commentContent} onChange={(c)=>setCommentContent(c.target.value)}/>
+                                <Form.Button onClick={submitComment}>留言</Form.Button>
                             </Form>
                             <Header>共1則留言</Header>
                             <Comment>
