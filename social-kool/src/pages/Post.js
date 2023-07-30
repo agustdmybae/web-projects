@@ -23,8 +23,9 @@ export default function Post(){
     })
 
     //讀取文章的comments、監聽：只要有變動就會更新
+    //利用 orderBy 來管理時間順序
     React.useEffect(()=>{
-        firebase.firestore().collection("posts").doc(postId).collection("comments").onSnapshot((collectionSnapshot)=>{
+        firebase.firestore().collection("posts").doc(postId).collection("comments").orderBy("createdAt").onSnapshot((collectionSnapshot)=>{
             const data = collectionSnapshot.docs.map((doc) => {
                 return doc.data();
             })
