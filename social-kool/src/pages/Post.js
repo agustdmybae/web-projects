@@ -12,6 +12,7 @@ export default function Post(){
         author: {},
     });
     const [commentContent, setCommentContent] = React.useState("");
+    const [isLoading, setIsLoading] = React.useState(false);
     React.useEffect(()=>{
         //用 onSnaptshot 即時監聽、取代原本的 get+then
         firebase.firestore().collection("posts").doc(postId).onSnapshot((docSnapshot)=>{
@@ -38,10 +39,11 @@ export default function Post(){
     }
 
     function submitComment(){
+        setIsLoading(true);
         //firestore batch: 對 firestore 一次進行多個操作、並確保同時完成
         const firestore = firebase.firestore();
         const batch = firestore.batch();
-        const postRef = firebase.collection("posts").doc(postId);
+        const postRef = firestore.collection("posts").doc(postId);
 
         batch.update(postRef, {
             commentsCount: firebase.firestore.FieldValue.increment(1),
@@ -58,7 +60,11 @@ export default function Post(){
             }
         });
         //真的送出batch的更新
-        batch.commit();
+        //將comment文字重整清空
+        batch.commit().then(()=>{
+            setCommentContent("");
+            setIsLoading(false);
+        });
     }
 
     return(
@@ -97,7 +103,7 @@ export default function Post(){
                         <Comment.Group>
                             <Form reply>
                                 <Form.TextArea value={commentContent} onChange={(c)=>setCommentContent(c.target.value)}/>
-                                <Form.Button onClick={submitComment}>留言</Form.Button>
+                                <Form.Button onClick={submitComment} loading={isLoading}>留言</Form.Button>
                             </Form>
                             <Header>共1則留言</Header>
                             <Comment>
