@@ -13,6 +13,7 @@ export default function Post(){
     });
     const [commentContent, setCommentContent] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
+    const [comments, setComments] = React.useState([]);
     React.useEffect(()=>{
         //用 onSnaptshot 即時監聽、取代原本的 get+then
         firebase.firestore().collection("posts").doc(postId).onSnapshot((docSnapshot)=>{
@@ -20,6 +21,17 @@ export default function Post(){
             setPost(data);
         })
     })
+
+    //讀取文章的comments
+    React.useEffect(()=>{
+        firebase.firestore().collection("posts").doc(postId).collection("comments").onSnapshot((collectionSnapshot)=>{
+            const data = collectionSnapshot.docs.map(doc => {
+                return data = doc.data();
+            })
+            setComments(data);
+        });
+    })
+
     //判斷文章是否有被收藏過
     const isCollected = post.collectedBy ? post.collectedBy.includes(firebase.auth().currentUser.uid) : false;
     //判斷文章是否有被按讚過
