@@ -22,11 +22,11 @@ export default function Post(){
         })
     })
 
-    //讀取文章的comments
+    //讀取文章的comments、監聽：只要有變動就會更新
     React.useEffect(()=>{
         firebase.firestore().collection("posts").doc(postId).collection("comments").onSnapshot((collectionSnapshot)=>{
-            const data = collectionSnapshot.docs.map(doc => {
-                return data = doc.data();
+            const data = collectionSnapshot.docs.map((doc) => {
+                return doc.data();
             })
             setComments(data);
         });
@@ -117,15 +117,20 @@ export default function Post(){
                                 <Form.TextArea value={commentContent} onChange={(c)=>setCommentContent(c.target.value)}/>
                                 <Form.Button onClick={submitComment} loading={isLoading}>留言</Form.Button>
                             </Form>
-                            <Header>共1則留言</Header>
-                            <Comment>
-                                <Comment.Avatar src=''/>
-                                <Comment.Content>
-                                    <Comment.Author as="span">留言者名稱</Comment.Author>
-                                    <Comment.Metadata>{new Date().toLocaleString}</Comment.Metadata>
-                                    <Comment.Text>留言內容</Comment.Text>
-                                </Comment.Content>
-                            </Comment>
+                            <Header>共 {post.commentsCount} 則留言</Header>
+                            {comments.map((comment)=>{
+                                return (
+                                    <Comment>
+                                        <Comment.Avatar src={comment.author.photoURL}/>
+                                        <Comment.Content>
+                                            <Comment.Author as="span">{comment.author.displayName || "使用者"}</Comment.Author>
+                                            <Comment.Metadata>{comment.createdAt.toDate().toLocaleString()}</Comment.Metadata> 
+                                            <Comment.Text>{comment.content}</Comment.Text>
+                                        </Comment.Content>
+                                    </Comment>
+                                )
+                            })}
+                            
                         </Comment.Group>
                         
                     </Grid.Column>
