@@ -23,7 +23,7 @@ export default function Post(){
     })
 
     //讀取文章的comments、監聽：只要有變動就會更新
-    //利用 orderBy 來管理時間順序
+    //利用 orderBy 來管理時間順序(從就到新)
     React.useEffect(()=>{
         firebase.firestore().collection("posts").doc(postId).collection("comments").orderBy("createdAt").onSnapshot((collectionSnapshot)=>{
             const data = collectionSnapshot.docs.map((doc) => {
@@ -99,7 +99,7 @@ export default function Post(){
                         <Image src={post.imageURL}/>
                         <Segment basic vertical>{post.content}</Segment>
                         <Segment basic vertical>
-                            留言0 * 讚 {post.likedBy ? post.likedBy.length : 0} * 
+                            留言 {post.commentsCount} * 讚 {post.likedBy ? post.likedBy.length : 0} * 
                             <Icon 
                                 name={`thumbs up ${isLiked ? "" : "outline"}`}
                                 color= {isLiked ? "blue" : "grey" } 
