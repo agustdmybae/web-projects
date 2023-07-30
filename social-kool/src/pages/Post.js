@@ -118,7 +118,7 @@ export default function Post(){
                                 <Form.TextArea value={commentContent} onChange={(c)=>setCommentContent(c.target.value)}/>
                                 <Form.Button onClick={submitComment} loading={isLoading}>留言</Form.Button>
                             </Form>
-                            <Header>共 {post.commentsCount} 則留言</Header>
+                            <Header>共 {post.commentsCount || 0} 則留言</Header>
                             {comments.map((comment)=>{
                                 return (
                                     <Comment>
@@ -126,7 +126,7 @@ export default function Post(){
                                         <Comment.Content>
                                             <Comment.Author as="span">{comment.author.displayName || "使用者"}</Comment.Author>
                                             <Comment.Metadata>{comment.createdAt.toDate().toLocaleString()}</Comment.Metadata> 
-                                            <Comment.Text>{comment.content}</Comment.Text>
+                                            <Comment.Text>{comment.content || 0}</Comment.Text>
                                         </Comment.Content>
                                     </Comment>
                                 )
