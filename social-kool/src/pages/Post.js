@@ -51,7 +51,14 @@ export default function Post(){
         batch.set(commentsRef, {
             content: commentContent,
             createdAt: firebase.firestore.Timestamp.now(),
-        })
+            author: {
+                uid: firebase.auth().currentUser.uid,
+                displayName: firebase.auth().currentUser.displayName || "",
+                photoURL: firebase.auth().currentUser.photoURL || "",
+            }
+        });
+        //真的送出batch的更新
+        batch.commit();
     }
 
     return(
