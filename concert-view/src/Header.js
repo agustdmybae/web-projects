@@ -13,7 +13,7 @@ export default function Header(){
     return (
         <Menu>
             <Menu.Item as={Link} to="/">
-                Social KOOL
+                Concert VIEW
             </Menu.Item>
             <Menu.Item><Search /></Menu.Item>
             <Menu.Menu position="right">
