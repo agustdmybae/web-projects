@@ -9,7 +9,7 @@ export default function Header(){
                 CONCERT VIEW
             </Menu.Item>
             <Menu.Menu position="right">
-                <Menu.Item>
+                <Menu.Item as={Link} to="/signin">
                     註冊/登入
                 </Menu.Item>
             </Menu.Menu>

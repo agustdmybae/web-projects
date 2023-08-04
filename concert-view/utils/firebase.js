@@ -7,7 +7,7 @@ const firebaseConfig = {
     storageBucket: "concert-view.appspot.com",
     messagingSenderId: "889545344068",
     appId: "1:889545344068:web:aad53220721aeb5d086811"
-  };
+};
 
 firebase.initializeApp(firebaseConfig);
 

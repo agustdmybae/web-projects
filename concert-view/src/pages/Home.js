@@ -1,7 +1,6 @@
 import React from 'react';
 import Sites from '../components/Site';
 import { Grid, Item, Image, Icon, Container, Header } from 'semantic-ui-react';
-import firebase from '../utils/firebase';
 
 export default function Home(){
     return(
