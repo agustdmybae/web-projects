@@ -1,4 +1,5 @@
 import React from 'react';
+import firebase from '../utils/firebase';
 import Sites from '../components/Site';
 import { Grid, Item, Image, Icon, Container, Header } from 'semantic-ui-react';
 
